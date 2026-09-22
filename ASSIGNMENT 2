@@ -1,0 +1,144 @@
+que no 88
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int p=m-1;
+        int q=n-1;
+        int k=m+n-1;
+        while(p>=0 && q>=0){
+            if(nums1[p] >nums2[q]){
+                nums1[k--]=nums1[p--];
+            }else{
+                nums1[k--]=nums2[q--];
+            }
+        }
+        while(q>=-0){
+            nums1[k--]=nums2[q--];
+        }
+    }
+}
+
+que no 912
+
+class Solution {
+    public void merge(int[] arr, int start, int mid, int end) {
+        int[] temp = new int[end - start + 1];
+
+        int p1 = start,
+            p2 = mid+1,
+            p3 = 0;
+
+        while(p1 <= mid && p2 <= end) {
+            if(arr[p1] < arr[p2]) {
+                temp[p3] = arr[p1];
+                p1++;
+            }
+            else {
+                temp[p3] = arr[p2];
+                p2++;
+            }
+            p3++;
+        }
+
+        while(p1 <= mid) {
+            temp[p3] = arr[p1];
+            p1++;
+            p3++;
+        }
+
+        while(p2 <= end) {
+            temp[p3] = arr[p2];
+            p2++;
+            p3++;
+        }
+
+        int i=0;
+        p1 = start;
+
+        while(i < temp.length) {
+            arr[p1] = temp[i];
+            i++;
+            p1++;
+        }
+    }
+    public void mergeSort(int[] nums, int start, int end) {
+        if(start >= end) return;
+
+        int mid = start + (end - start)/2;
+
+        mergeSort(nums, start, mid);
+        mergeSort(nums, mid+1, end);
+
+        merge(nums, start, mid, end);
+    }
+    public int[] sortArray(int[] nums) {
+        mergeSort(nums, 0, nums.length-1);
+        return nums;
+    }
+}
+
+que no 215
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int[] count = new int[20001];
+
+        for (int num : nums) 
+            count[num + 10000]++;
+
+        for (int i = count.length - 1; i >= 0; i--) 
+            if (count[i] > 0) {
+                k -= count[i];
+                if (k <= 0) return i - 10000;
+            }
+        
+        return -1;
+    }
+}
+
+que no 53
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxSum = nums[0];
+        int currentSum = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            currentSum = Math.max(nums[i], currentSum + nums[i]);
+            maxSum = Math.max(maxSum, currentSum);
+        }
+
+        return maxSum;
+    }
+}
+
+que no 4
+
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        int n = n1 + n2;
+        int[] new_arr = new int[n];
+
+        int i=0, j=0, k=0;
+
+        while (i<=n1 && j<=n2) {
+            if (i == n1) {
+                while(j<n2) new_arr[k++] = nums2[j++];
+                break;
+            } else if (j == n2) {
+                while (i<n1) new_arr[k++] = nums1[i++];
+                break;
+            }
+
+            if (nums1[i] < nums2[j]) {
+                new_arr[k++] = nums1[i++];
+            } else {
+                new_arr[k++] = nums2[j++];
+            }
+        }
+
+        if (n%2==0) return (float)(new_arr[n/2-1] + new_arr[n/2])/2;
+        else return new_arr[n/2];
+    }
+}
